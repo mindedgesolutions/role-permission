@@ -1,24 +1,27 @@
 import React, { useEffect } from "react";
-import {
-  Outlet,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import "../assets/dist/css/demo.min.css";
 import "../assets/dist/css/tabler.min.css";
 
 import "../assets/dist/js/demo.js";
 import "../assets/dist/js/tabler.js";
+
 import customFetch from "../utils/customFetch.js";
 import { splitErrors } from "../utils/showError.jsx";
+import { setCurrentUser } from "../features/userSlice.js";
+import { useSelector } from "react-redux";
+import { Footer, Sidebar, Topnav } from "../components";
 
 // Loader starts ------
-export const loader = async () => {
+export const loader = (store) => async () => {
+  const { currentUser } = store.getState().user;
   try {
-    const response = await customFetch.get(`/user/current`);
-    return response.data.data;
+    if (!currentUser.name) {
+      const response = await customFetch.get(`/user/current`);
+      store.dispatch(setCurrentUser(response.data.data));
+    }
+    return currentUser;
   } catch (error) {
     splitErrors(error?.response?.data?.msg);
     return error;
@@ -28,8 +31,8 @@ export const loader = async () => {
 // Main component starts ------
 const Layout = () => {
   const { pathname } = useLocation();
-  const data = useLoaderData();
-  const roleId = data?.role_id;
+  const { currentUser } = useSelector((store) => store.user);
+  const roleId = currentUser?.role_id;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,11 +53,16 @@ const Layout = () => {
       }
     };
     checkAccess();
-  }, []);
+  }, [pathname]);
 
   return (
     <>
-      <Outlet />
+      <Topnav />
+      <Sidebar />
+      <div className="page-wrapper">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 };

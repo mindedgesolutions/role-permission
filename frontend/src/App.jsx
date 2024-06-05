@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import * as Rp from "./pages";
+import { store } from "./store";
 
 // Actions ------
 import { action as loginAction } from "./pages/auth/Login";
@@ -8,12 +9,12 @@ import { action as loginAction } from "./pages/auth/Login";
 import { loader as layoutLoader } from "./pages/Layout";
 
 const router = createBrowserRouter([
-  { path: "/login", element: <Rp.Login />, action: loginAction },
+  { path: "/", element: <Rp.Login />, action: loginAction },
   {
     path: "/",
     element: <Rp.Layout />,
     errorElement: <Rp.Error />,
-    loader: layoutLoader,
+    loader: layoutLoader(store),
     children: [
       { path: "forbidden", element: <Rp.Forbidden /> },
       { path: "change-password", element: <Rp.ChangePassword /> },

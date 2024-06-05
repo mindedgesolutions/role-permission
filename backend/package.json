@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server"
+    "server": "nodemon server",
+    "client": "cd ../frontend && npm run dev",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "build:staging": "env-cmd -f .env.staging npm run build"
   },
   "author": "",
   "license": "ISC",
