@@ -1,12 +1,19 @@
 import { faker } from "@faker-js/faker";
 import pool from "../db.js";
+import { v4 as uuidv4 } from "uuid";
+import { generatePassword } from "../utils/passwordUtils.js";
 
 const generateUser = () => {
+  const pass = generatePassword("welcome123");
+  const userUuid = uuidv4();
+
   const user = {
     name: faker.person.fullName(),
-    email: faker.internet.email(),
+    email: faker.internet.email().toLowerCase(),
     mobile: faker.phone.number(),
     role_id: faker.number.int({ min: 1, max: 3 }),
+    password: pass,
+    uuid: userUuid,
   };
   return user;
 };

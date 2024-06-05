@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { Outlet, useLoaderData, useLocation } from "react-router-dom";
+import {
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import "../assets/dist/css/demo.min.css";
 import "../assets/dist/css/tabler.min.css";
@@ -13,7 +18,7 @@ import { splitErrors } from "../utils/showError.jsx";
 export const loader = async () => {
   try {
     const response = await customFetch.get(`/user/current`);
-    return response?.data?.data;
+    return response.data.data;
   } catch (error) {
     splitErrors(error?.response?.data?.msg);
     return error;
@@ -24,7 +29,8 @@ export const loader = async () => {
 const Layout = () => {
   const { pathname } = useLocation();
   const data = useLoaderData();
-  const roleId = data.role_id;
+  const roleId = data?.role_id;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAccess = async () => {
@@ -37,6 +43,9 @@ const Layout = () => {
         });
       } catch (error) {
         splitErrors(error?.response?.data?.msg);
+        if (error?.response?.status === 403) {
+          navigate("/forbidden");
+        }
         return error;
       }
     };

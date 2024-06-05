@@ -7,7 +7,7 @@ export const checkAccess = async (req, res, next) => {
     `select count(id)::INTEGER from site_urls where path=$1`,
     [url]
   );
-  if (urlExists.rows > 0) {
+  if (urlExists.rows[0].count > 0) {
     const check = await pool.query(
       `select count(id)::INTEGER from site_urls where path=$1 and $2 = ANY(string_to_array(roles, ','))`,
       [url, role]

@@ -15,6 +15,7 @@ const router = createBrowserRouter([
     errorElement: <Rp.Error />,
     loader: layoutLoader,
     children: [
+      { path: "forbidden", element: <Rp.Forbidden /> },
       { path: "change-password", element: <Rp.ChangePassword /> },
       { path: "profile", element: <Rp.Profile /> },
       {

@@ -9,3 +9,4 @@ export { default as Profile } from "./auth/Profile";
 export { default as AdminDashboard } from "./dashboards/AdminDashboard";
 export { default as BuyerDashboard } from "./dashboards/BuyerDashboard";
 export { default as SellerDashboard } from "./dashboards/SellerDashboard";
+export { default as Forbidden } from "./errors/Forbidden";
