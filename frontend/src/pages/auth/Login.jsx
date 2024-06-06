@@ -17,13 +17,13 @@ export const action = async ({ request }) => {
     let path = "";
     switch (response?.data?.data?.role_id) {
       case 1:
-        path = `/admin`;
+        path = `/admin/dashboard`;
         break;
       case 2:
-        path = `/seller`;
+        path = `/seller/dashboard`;
         break;
       case 3:
-        path = `/buyer`;
+        path = `/buyer/dashboard`;
         break;
     }
     toast.success(`Login success`);
@@ -36,7 +36,10 @@ export const action = async ({ request }) => {
 
 // Main component starts ------
 const Login = () => {
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState({
+    username: "souvik@test.com",
+    password: "welcome123",
+  });
   const [isVisible, setIsVisible] = useState("password");
 
   const handleChange = (e) => {

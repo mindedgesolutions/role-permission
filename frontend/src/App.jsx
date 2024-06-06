@@ -7,6 +7,7 @@ import { action as loginAction } from "./pages/auth/Login";
 
 // Loaders ------
 import { loader as layoutLoader } from "./pages/Layout";
+import { loader as adminLayoutLoader } from "./pages/AdminLayout";
 
 const router = createBrowserRouter([
   { path: "/", element: <Rp.Login />, action: loginAction },
@@ -22,20 +23,25 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: <Rp.AdminLayout />,
+        loader: adminLayoutLoader(store),
         errorElement: <Rp.Error />,
-        children: [{ index: true, element: <Rp.AdminDashboard /> }],
+        children: [
+          { path: "dashboard", element: <Rp.AdminDashboard /> },
+          { path: "users", element: <Rp.UserList /> },
+          { path: "routes", element: <Rp.RouteList /> },
+        ],
       },
       {
         path: "seller",
         element: <Rp.SellerDashboard />,
         errorElement: <Rp.Error />,
-        children: [{ index: true, element: <Rp.SellerDashboard /> }],
+        children: [{ path: "dashboard", element: <Rp.SellerDashboard /> }],
       },
       {
         path: "buyer",
         element: <Rp.BuyerDashboard />,
         errorElement: <Rp.Error />,
-        children: [{ index: true, element: <Rp.BuyerDashboard /> }],
+        children: [{ path: "dashboard", element: <Rp.BuyerDashboard /> }],
       },
     ],
   },

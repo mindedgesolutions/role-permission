@@ -9,10 +9,12 @@ const app = express();
 
 // Middlewares ------
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
+import { protectRoute } from "./middlewares/authMiddleware.js";
 
 // Routes ------
 import authRoute from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
+import roleRouter from "./routes/roleRoute.js";
 
 if (process.env.APP_ENV === "development") {
   app.use(morgan("dev"));
@@ -23,7 +25,8 @@ app.use(express.json());
 
 // API starts ------
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/user", protectRoute, userRouter);
+app.use("/api/v1/roles", protectRoute, roleRouter);
 // API ends ------
 
 const port = process.env.APP_PORT || 3001;

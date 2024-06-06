@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
 
-import "../assets/dist/css/demo.min.css";
 import "../assets/dist/css/tabler.min.css";
+import "../assets/dist/css/demo.min.css";
 
-import "../assets/dist/js/demo.js";
-import "../assets/dist/js/tabler.js";
+import "../assets/dist/js/tabler.min.js";
+import "../assets/dist/js/demo.min.js";
 
 import customFetch from "../utils/customFetch.js";
 import { splitErrors } from "../utils/showError.jsx";
@@ -15,7 +15,7 @@ import { Footer, Sidebar, Topnav } from "../components";
 
 // Loader starts ------
 export const loader = (store) => async () => {
-  const { currentUser } = store.getState().user;
+  const { currentUser } = store.getState().users;
   try {
     if (!currentUser.name) {
       const response = await customFetch.get(`/user/current`);
@@ -24,14 +24,14 @@ export const loader = (store) => async () => {
     return currentUser;
   } catch (error) {
     splitErrors(error?.response?.data?.msg);
-    return error;
+    return redirect("/");
   }
 };
 
 // Main component starts ------
 const Layout = () => {
   const { pathname } = useLocation();
-  const { currentUser } = useSelector((store) => store.user);
+  const { currentUser } = useSelector((store) => store.users);
   const roleId = currentUser?.role_id;
   const navigate = useNavigate();
 
@@ -55,14 +55,16 @@ const Layout = () => {
     checkAccess();
   }, [pathname]);
 
+  const logout = async () => {};
+
   return (
     <>
-      <Topnav />
+      <Topnav logout={logout} />
       <Sidebar />
       <div className="page-wrapper">
         <Outlet />
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

@@ -43,4 +43,6 @@ export const loginUser = async (req, res) => {
   res.status(StatusCodes.ACCEPTED).json({ data: user.rows[0] });
 };
 
-export const userAccess = async (req, res) => {};
+export const userAccess = async (req, res) => {
+  res.status(StatusCodes.OK).json({ data: `success` });
+};

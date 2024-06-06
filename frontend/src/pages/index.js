@@ -10,3 +10,5 @@ export { default as AdminDashboard } from "./dashboards/AdminDashboard";
 export { default as BuyerDashboard } from "./dashboards/BuyerDashboard";
 export { default as SellerDashboard } from "./dashboards/SellerDashboard";
 export { default as Forbidden } from "./errors/Forbidden";
+export { default as UserList } from "./users/UserList";
+export { default as RouteList } from "./routes/RouteList";
