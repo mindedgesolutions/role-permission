@@ -9,9 +9,10 @@ import "../assets/dist/js/demo.min.js";
 
 import customFetch from "../utils/customFetch.js";
 import { splitErrors } from "../utils/showError.jsx";
-import { setCurrentUser } from "../features/userSlice.js";
-import { useSelector } from "react-redux";
+import { setCurrentUser, unsetCurrentUser } from "../features/userSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 import { Footer, Sidebar, Topnav } from "../components";
+import { toast } from "react-toastify";
 
 // Loader starts ------
 export const loader = (store) => async () => {
@@ -34,6 +35,7 @@ const Layout = () => {
   const { currentUser } = useSelector((store) => store.users);
   const roleId = currentUser?.role_id;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkAccess = async () => {
@@ -55,7 +57,13 @@ const Layout = () => {
     checkAccess();
   }, [pathname]);
 
-  const logout = async () => {};
+  const logout = async () => {
+    await customFetch.get(`/auth/logout`);
+    localStorage.clear();
+    dispatch(unsetCurrentUser());
+    toast.success(`Thank you for visiting`);
+    navigate("/");
+  };
 
   return (
     <>

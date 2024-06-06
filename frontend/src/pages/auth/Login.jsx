@@ -36,6 +36,8 @@ export const action = async ({ request }) => {
 
 // Main component starts ------
 const Login = () => {
+  document.title = `Login | ${import.meta.env.VITE_ADMIN_TITLE}`;
+
   const [form, setForm] = useState({
     username: "souvik@test.com",
     password: "welcome123",

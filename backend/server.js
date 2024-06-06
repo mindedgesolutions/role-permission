@@ -26,7 +26,7 @@ app.use(express.json());
 // API starts ------
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", protectRoute, userRouter);
-app.use("/api/v1/roles", protectRoute, roleRouter);
+app.use("/api/v1/roles", roleRouter);
 // API ends ------
 
 const port = process.env.APP_PORT || 3001;

@@ -43,6 +43,17 @@ export const loginUser = async (req, res) => {
   res.status(StatusCodes.ACCEPTED).json({ data: user.rows[0] });
 };
 
+// ------
 export const userAccess = async (req, res) => {
   res.status(StatusCodes.OK).json({ data: `success` });
+};
+
+// ------
+export const logoutUser = async (req, res) => {
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+
+  res.status(StatusCodes.OK).json({ msg: "User logged out" });
 };
