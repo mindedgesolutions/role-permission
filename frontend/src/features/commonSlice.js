@@ -5,7 +5,9 @@ const initialState = {
   totalPages: 0,
   currentPage: 1,
   editId: "",
+  editModal: false,
   deleteId: "",
+  deleteModal: false,
   changeCount: 0,
 };
 
@@ -26,8 +28,32 @@ const commonSlice = createSlice({
       state.totalPages = 0;
       state.currentPage = 1;
     },
+    setEditMode: (state, action) => {
+      state.editId = action.payload;
+      state.editModal = true;
+    },
+    unsetEditMode: (state) => {
+      state.editId = "";
+      state.editModal = false;
+    },
+    setDeleteMode: (state, action) => {
+      state.deleteId = action.payload;
+      state.deleteModal = true;
+    },
+    unsetDeleteMode: (state) => {
+      state.deleteId = "";
+      state.deleteModal = false;
+    },
   },
 });
 
-export const { updateCount, setTotal, unsetTotal } = commonSlice.actions;
+export const {
+  updateCount,
+  setTotal,
+  unsetTotal,
+  setEditMode,
+  unsetEditMode,
+  setDeleteMode,
+  unsetDeleteMode,
+} = commonSlice.actions;
 export default commonSlice.reducer;

@@ -3,7 +3,7 @@ import customFetch from "../../utils/customFetch";
 import { splitErrors } from "../../utils/showError";
 import { Form, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setListUsers } from "../../features/userSlice";
+import { setListBuyers } from "../../features/userSlice";
 import {
   PageHeader,
   PageWrapper,
@@ -19,40 +19,35 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { setDeleteMode, setTotal } from "../../features/commonSlice";
 import { nanoid } from "nanoid";
-import { serialNo, switchColor } from "../../utils/functions";
+import { serialNo } from "../../utils/functions";
 
-const UserList = () => {
-  document.title = `List of All Users | ${import.meta.env.VITE_ADMIN_TITLE}`;
-
-  const postTitle = `Default password: welcome123 (lower case)`;
-  const textClass = `text-danger`;
-  const returnUrl = `/admin/users/all`;
+const BuyerListAdmin = () => {
+  document.title = `List of Buyers | ${import.meta.env.VITE_ADMIN_TITLE}`;
+  const returnUrl = `/admin/users/buyers`;
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({ r: "", s: "" });
+  const [form, setForm] = useState({ s: "" });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const dispatch = useDispatch();
-  const { listUsers, currentUser } = useSelector((store) => store.users);
+  const { listBuyers, currentUser } = useSelector((store) => store.users);
   const { totalRecords, totalPages, currentPage, changeCount } = useSelector(
     (store) => store.common
   );
-  const { listRoles } = useSelector((store) => store.roles);
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await customFetch.get(`/users/all`, {
+      const response = await customFetch.get(`/users/all/${3}`, {
         params: {
           page: queryParams.get("page") || "",
           search: queryParams.get("s") || "",
-          searchRole: queryParams.get("r") || "",
         },
       });
 
@@ -62,7 +57,7 @@ const UserList = () => {
         currentPage: response?.data?.meta?.currentPage,
       };
 
-      dispatch(setListUsers(response?.data?.data?.rows));
+      dispatch(setListBuyers(response?.data?.data?.rows));
       dispatch(setTotal(data));
 
       setIsLoading(false);
@@ -75,15 +70,10 @@ const UserList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [
-    queryParams.get("page"),
-    queryParams.get("r"),
-    queryParams.get("s"),
-    changeCount,
-  ]);
+  }, [queryParams.get("page"), queryParams.get("s"), changeCount]);
 
   const resetSearch = () => {
-    setForm({ ...form, r: "", s: "" });
+    setForm({ ...form, s: "" });
     navigate(returnUrl);
   };
 
@@ -92,11 +82,7 @@ const UserList = () => {
       <div className="page-header d-print-none">
         <div className="container-xl">
           <div className="row g-2 align-items-center">
-            <PageHeader
-              title={`List of All Users`}
-              postTitle={postTitle}
-              textClass={textClass}
-            />
+            <PageHeader title={`List of all Buyers (Admin only)`} />
             <div className="col-auto ms-auto d-print-none">
               <div className="btn-list">
                 <span className="d-none d-sm-inline">
@@ -117,31 +103,10 @@ const UserList = () => {
         <div className="col-12">
           <div className="card">
             <div className="card-header">
-              Total {totalRecords} users found
+              Total {totalRecords} buyers found
               <div className="col-auto ms-auto d-print-none">
                 <Form method="GET">
                   <div className="btn-list">
-                    <span className="d-none d-sm-inline">
-                      <div className="input-icon">
-                        <select
-                          className="form-control"
-                          name="r"
-                          id="searchRole"
-                          style={{ minWidth: "200px" }}
-                          value={queryParams.get("r") || form.r}
-                          onChange={handleChange}
-                        >
-                          <option value="">Select</option>
-                          {listRoles?.map((i) => {
-                            return (
-                              <option key={nanoid()} value={i.id}>
-                                {i.role}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    </span>
                     <span className="d-none d-sm-inline">
                       <div className="input-icon">
                         <input
@@ -181,7 +146,6 @@ const UserList = () => {
                   <thead>
                     <tr>
                       <th className="bg-dark text-white">SL. NO.</th>
-                      <th className="bg-dark text-white">Role</th>
                       <th className="bg-dark text-white">Name</th>
                       <th className="bg-dark text-white">Email</th>
                       <th className="bg-dark text-white">Mobile</th>
@@ -196,9 +160,9 @@ const UserList = () => {
                           <TableLoader />
                         </td>
                       </tr>
-                    ) : listUsers.length > 0 ? (
+                    ) : listBuyers.length > 0 ? (
                       <>
-                        {listUsers.map((i, index) => {
+                        {listBuyers.map((i, index) => {
                           const isActive = i?.is_active ? (
                             <span className="badge bg-success-lt p-1">
                               Active
@@ -213,16 +177,6 @@ const UserList = () => {
                             <tr key={nanoid()}>
                               <td>
                                 {serialNo(queryParams.get("page")) + index}.
-                              </td>
-                              <td>
-                                <span
-                                  key={nanoid()}
-                                  className={`badge bg-${switchColor(
-                                    i.role_id
-                                  )}-lt me-1 my-1 fs-6`}
-                                >
-                                  {i?.role?.toUpperCase()}
-                                </span>
                               </td>
                               <td>{i?.name?.toUpperCase()}</td>
                               <td>{i?.email}</td>
@@ -286,4 +240,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default BuyerListAdmin;

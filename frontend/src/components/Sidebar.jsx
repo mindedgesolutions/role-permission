@@ -1,8 +1,9 @@
 import React from "react";
 import Logo from "../assets/static/logo-white.svg";
 import { Link, NavLink } from "react-router-dom";
-import { AiOutlineHome, AiOutlineFile } from "react-icons/ai";
+import { AiOutlineHome } from "react-icons/ai";
 import { BsGraphUpArrow } from "react-icons/bs";
+import { MdOutlineVideoCameraBack } from "react-icons/md";
 import { MdAddLink } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -15,7 +16,7 @@ const Sidebar = () => {
       homeRoute = `/admin/dashboard`;
       break;
     case 2:
-      homeRoute = `/seller/dashboard`;
+      homeRoute = `/provider/dashboard`;
       break;
     case 3:
       homeRoute = `/buyer/dashboard`;
@@ -47,13 +48,37 @@ const Sidebar = () => {
                 <span className="nav-link-title">Home</span>
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/users">
+            <li className="nav-item dropdown">
+              <NavLink
+                className="nav-link dropdown-toggle"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="false"
+                aria-expanded="false"
+                to={`#`}
+              >
                 <span className="nav-link-icon d-md-none d-lg-inline-block">
                   <FiUsers size={18} />
                 </span>
                 <span className="nav-link-title">Users</span>
               </NavLink>
+              <div className="dropdown-menu">
+                <div className="dropdown-menu-columns">
+                  <div className="dropdown-menu-column">
+                    <NavLink to="/admin/users/all" className="dropdown-item">
+                      All Users
+                    </NavLink>
+                    <NavLink
+                      to="/admin/users/providers"
+                      className="dropdown-item"
+                    >
+                      Providers
+                    </NavLink>
+                    <NavLink to="/admin/users/buyers" className="dropdown-item">
+                      Buyers
+                    </NavLink>
+                  </div>
+                </div>
+              </div>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/admin/routes">
@@ -63,43 +88,13 @@ const Sidebar = () => {
                 <span className="nav-link-title">Routes / URLs</span>
               </NavLink>
             </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#navbar-extra"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="false"
-                role="button"
-                aria-expanded="false"
-              >
-                <span className="nav-link-icon d-md-none d-lg-inline-block">
-                  <AiOutlineFile size={18} />
-                </span>
-                <span className="nav-link-title">Applications</span>
-              </a>
-              <div className="dropdown-menu">
-                <div className="dropdown-menu-columns">
-                  <div className="dropdown-menu-column">
-                    <Link to="/admin/applications" className="dropdown-item">
-                      All applications
-                    </Link>
-                    <Link
-                      to="/admin/search-application"
-                      className="dropdown-item"
-                    >
-                      Search application
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/admin/reports">
+              <NavLink className="nav-link" to="/posts/all">
                 <span className="nav-link-icon d-md-none d-lg-inline-block">
-                  <BsGraphUpArrow size={16} />
+                  <MdOutlineVideoCameraBack size={18} />
                 </span>
-                <span className="nav-link-title">Reports</span>
-              </Link>
+                <span className="nav-link-title">Posts</span>
+              </NavLink>
             </li>
           </ul>
         </div>

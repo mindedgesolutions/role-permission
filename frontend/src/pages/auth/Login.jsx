@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/static/logo.svg";
 import { Form, Link, redirect } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -20,7 +20,7 @@ export const action = async ({ request }) => {
         path = `/admin/dashboard`;
         break;
       case 2:
-        path = `/seller/dashboard`;
+        path = `/provider/dashboard`;
         break;
       case 3:
         path = `/buyer/dashboard`;
@@ -47,6 +47,10 @@ const Login = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    document.body.setAttribute("data-bs-theme", "");
+  }, []);
 
   return (
     <div className="d-flex flex-column bg-white">

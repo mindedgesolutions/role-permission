@@ -19,7 +19,7 @@ export const loader = (store) => async () => {
   const { currentUser } = store.getState().users;
   try {
     if (!currentUser.name) {
-      const response = await customFetch.get(`/user/current`);
+      const response = await customFetch.get(`/users/current`);
       store.dispatch(setCurrentUser(response.data.data));
     }
     return currentUser;
@@ -59,7 +59,7 @@ const Layout = () => {
 
   const logout = async () => {
     await customFetch.get(`/auth/logout`);
-    localStorage.clear();
+    localStorage.removeItem("token");
     dispatch(unsetCurrentUser());
     toast.success(`Thank you for visiting`);
     navigate("/");

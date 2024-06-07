@@ -11,7 +11,7 @@ const Forbidden = () => {
       returnPath = `/admin/dashboard`;
       break;
     case 2:
-      returnPath = `/seller/dashboard`;
+      returnPath = `/provider/dashboard`;
       break;
     case 3:
       returnPath = `/buyer/dashboard`;
@@ -26,7 +26,7 @@ const Forbidden = () => {
             <div className="empty-header">403</div>
             <p className="empty-title">This page is off limit!</p>
             <p className="empty-subtitle text-muted">
-              No, no!! You are not allowed to peep into this page
+              No, no!! You are not allowed to peek into this page
             </p>
             <div className="empty-action">
               <Link to={returnPath} className="btn btn-primary">

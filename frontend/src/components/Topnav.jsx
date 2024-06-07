@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaMoon } from "react-icons/fa";
-import { IoIosSunny } from "react-icons/io";
+import { IoMdSunny } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import avatar from "../assets/static/avatars/000m.jpg";
 import { useSelector } from "react-redux";
 
 const Topnav = ({ logout }) => {
   const { currentUser } = useSelector((store) => store.users);
+  const [isDarkTheme, setIsDarkTheme] = useState(
+    localStorage.getItem("theme") === "dark" ? true : false
+  );
+
+  const toggleDarkMode = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    const theme = newTheme === true ? "dark" : "";
+    localStorage.setItem("theme", theme);
+    document.body.setAttribute("data-bs-theme", theme);
+  };
+
+  useEffect(() => {
+    document.body.setAttribute("data-bs-theme", localStorage.getItem("theme"));
+  }, [isDarkTheme]);
 
   return (
     <header className="navbar navbar-expand-md d-none d-lg-flex d-print-none">
       <div className="container-xl">
         <div className="navbar-nav flex-row order-md-last">
           <div className="d-none d-md-flex">
-            <FaMoon
-              className="nav-link px-0 cursor-pointer mt-2"
-              title="Enable dark mode"
-            />
-            <IoIosSunny
-              className="nav-link px-0 cursor-pointer mt-2"
-              title="Enable light mode"
-            />
+            <Link to={`#`} onClick={toggleDarkMode} className="me-3">
+              {isDarkTheme ? (
+                <IoMdSunny
+                  className="nav-link px-0 cursor-pointer mt-2"
+                  title="Enable light mode"
+                />
+              ) : (
+                <FaMoon
+                  className="nav-link px-0 cursor-pointer mt-2"
+                  title="Enable dark mode"
+                />
+              )}
+            </Link>
           </div>
           <div className="nav-item dropdown">
             <Link
@@ -35,9 +55,9 @@ const Topnav = ({ logout }) => {
                 className="avatar avatar-sm"
               />
               <div className="d-none d-xl-block ps-2">
-                <div>{currentUser.name.toUpperCase()}</div>
+                <div>{currentUser?.name?.toUpperCase()}</div>
                 <div className="mt-1 small text-secondary fs-6">
-                  {currentUser.role.toUpperCase()}
+                  {currentUser?.role?.toUpperCase()}
                 </div>
               </div>
             </Link>

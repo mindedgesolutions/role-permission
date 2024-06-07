@@ -27,21 +27,39 @@ const router = createBrowserRouter([
         errorElement: <Rp.Error />,
         children: [
           { path: "dashboard", element: <Rp.AdminDashboard /> },
-          { path: "users", element: <Rp.UserList /> },
+          {
+            path: "users",
+            children: [
+              { path: "all", element: <Rp.UserList /> },
+              { path: "providers", element: <Rp.SellerList /> },
+              { path: "buyers", element: <Rp.BuyerListAdmin /> },
+            ],
+          },
           { path: "routes", element: <Rp.RouteList /> },
         ],
       },
       {
-        path: "seller",
-        element: <Rp.SellerDashboard />,
+        path: "provider",
+        element: <Rp.SellerLayout />,
         errorElement: <Rp.Error />,
-        children: [{ path: "dashboard", element: <Rp.SellerDashboard /> }],
+        children: [
+          { path: "dashboard", element: <Rp.SellerDashboard /> },
+          { path: ":slug/:uuid/buyers", element: <Rp.BuyerListProvider /> },
+        ],
       },
       {
         path: "buyer",
         element: <Rp.BuyerDashboard />,
         errorElement: <Rp.Error />,
         children: [{ path: "dashboard", element: <Rp.BuyerDashboard /> }],
+      },
+      {
+        path: "posts",
+        children: [
+          { path: "all", element: <Rp.AdList /> },
+          { path: "add", element: <Rp.AddEditAd /> },
+          { path: "edit/:uuid", element: <Rp.AddEditAd /> },
+        ],
       },
     ],
   },

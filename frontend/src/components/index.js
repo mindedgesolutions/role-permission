@@ -1,4 +1,4 @@
-export { default as BtnLoader } from "./BtnLoader";
+export { default as BtnSpinner } from "./BtnSpinner";
 export { default as Footer } from "./Footer";
 export { default as Sidebar } from "./Sidebar";
 export { default as SubmitBtn } from "./SubmitBtn";
@@ -12,3 +12,4 @@ export { default as RouteDeleteModal } from "./routes/RouteDeleteModal";
 export { default as UserAddEditModal } from "./users/UserAddEditModal";
 export { default as UserDeleteModal } from "./users/UserDeleteModal";
 export { default as UserActivate } from "./users/UserActivate";
+export { default as DeleteAd } from "./ads/DeleteAd";

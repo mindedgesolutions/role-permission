@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: "",
   listUsers: [],
+  listSellers: [],
+  listBuyers: [],
 };
 
 const userSlice = createSlice({
@@ -21,6 +23,18 @@ const userSlice = createSlice({
     unsetListUsers: (state) => {
       state.listUsers = [];
     },
+    setListSellers: (state, action) => {
+      state.listSellers = action.payload;
+    },
+    unsetListSellers: (state) => {
+      state.listSellers = [];
+    },
+    setListBuyers: (state, action) => {
+      state.listBuyers = action.payload;
+    },
+    unsetListBuyers: (state) => {
+      state.listBuyers = [];
+    },
   },
 });
 
@@ -29,5 +43,9 @@ export const {
   unsetCurrentUser,
   setListUsers,
   unsetListUsers,
+  setListSellers,
+  unsetListSellers,
+  setListBuyers,
+  unsetListBuyers,
 } = userSlice.actions;
 export default userSlice.reducer;

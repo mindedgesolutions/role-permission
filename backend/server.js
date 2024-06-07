@@ -25,7 +25,7 @@ app.use(express.json());
 
 // API starts ------
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/user", protectRoute, userRouter);
+app.use("/api/v1/users", protectRoute, userRouter);
 app.use("/api/v1/roles", roleRouter);
 // API ends ------
 
